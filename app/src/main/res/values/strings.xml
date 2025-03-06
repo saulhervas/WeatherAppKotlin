@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_field_hint">Mostly Cloudy</string>
+    <string name="text_field_hint_date">Mon June 17 | 10:00 AM</string>
+    <string name="text_field_hint_temperature">25°C</string>
+    <string name="text_field_hint_rain_percentage">25%</string>
+    <string name="text_field_hint_rain">Lluvia</string>
+    <string name="text_field_hint_humidity">Humedad</string>
+    <string name="text_field_hint_wind">Viento</string>
+    <string name="text_field_hint_today">Hoy</string>
+    <string name="text_field_hint_next">Próximos días > </string>
 </resources>
