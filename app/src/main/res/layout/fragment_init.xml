@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_weight="0.33"
     android:background="@color/background_color"
-    tools:context=".InitFragment">
+    tools:context=".ui.InitFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,14 +18,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
                 android:text="@string/text_field_hint"
                 android:textAlignment="center"
                 android:textColor="@color/text_color"
-                android:textSize="20sp" />
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -35,18 +35,9 @@
                 android:layout_marginTop="16dp"
                 android:src="@drawable/cloudy_sunny" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/text_field_hint_date"
-                android:textAlignment="center"
-                android:textColor="@color/text_color"
-                android:textSize="19sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tvTemperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_field_hint_temperature"
@@ -54,15 +45,6 @@
                 android:textColor="@color/text_color"
                 android:textSize="63sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="H: 25 L: 20"
-                android:textAlignment="center"
-                android:textColor="@color/text_color"
-                android:textSize="16sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -87,14 +69,14 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imageView2"
+                            android:id="@+id/imageView21"
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
                             app:srcCompat="@drawable/rain" />
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/tvrain"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain_percentage"
@@ -103,7 +85,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/textView62"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain"
@@ -118,14 +100,14 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imageView2"
+                            android:id="@+id/imageView23"
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
                             app:srcCompat="@drawable/wind" />
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/tvWind"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain_percentage"
@@ -134,7 +116,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/tvWind_label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_wind"
@@ -149,14 +131,14 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imageView2"
+                            android:id="@+id/imageView26"
                             android:layout_width="34dp"
                             android:layout_height="34dp"
                             android:layout_gravity="center"
                             app:srcCompat="@drawable/humidity" />
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/tvHumidity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain_percentage"
@@ -165,7 +147,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/tvHumidity_label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_humidity"
@@ -179,19 +161,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/text_field_hint_today"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="24dp"
-                    android:textColor="@color/text_color"
-                    />
-
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
@@ -199,13 +168,38 @@
                     android:textColor="@color/text_color"
                     android:text="@string/text_field_hint_next"
                     android:layout_marginEnd="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="24dp"
+                    android:textSize="20sp"
                     android:textStyle="bold"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvForecast"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_field_hint_7days"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/text_color" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDailyForecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"/>
 

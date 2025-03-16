@@ -74,6 +74,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.play.services.location)
     ksp(libs.hilt.android.compiler)
     //Biometric
     implementation(libs.androidxBiometric)
