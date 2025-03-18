@@ -10,5 +10,6 @@
     <string name="text_field_hint_humidity">Humedad</string>
     <string name="text_field_hint_wind">Viento</string>
     <string name="text_field_hint_today">Hoy</string>
-    <string name="text_field_hint_next">Próximos días > </string>
+    <string name="text_field_hint_next">Próximas horas > </string>
+    <string name="text_field_hint_7days">Próximos días > </string>
 </resources>
