@@ -28,7 +28,7 @@ class WeatherViewHolder(
             println("Weather description: $weatherDescription")
             val iconResource = when {
                 weatherDescription.contains("clear") -> com.saulhervas.weatherapp.R.drawable.sunny
-                weatherDescription.contains("cloud") -> com.saulhervas.weatherapp.R.drawable.cloudy_sunny
+                weatherDescription.contains("cloud") -> com.saulhervas.weatherapp.R.drawable.cloudy
                 weatherDescription.contains("rain") -> com.saulhervas.weatherapp.R.drawable.rainy
                 weatherDescription.contains("snow") -> com.saulhervas.weatherapp.R.drawable.snowy
                 else -> com.saulhervas.weatherapp.R.drawable.cloudy_sunny

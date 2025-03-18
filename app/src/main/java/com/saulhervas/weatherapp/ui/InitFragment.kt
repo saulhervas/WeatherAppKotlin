@@ -41,7 +41,6 @@ class InitFragment : Fragment() {
         if (isGranted) {
             getCurrentLocation()
         } else {
-            // Si no hay permisos, usar una ciudad por defecto
             viewModel.getWeatherAndForecastByCity("Madrid")
         }
     }
@@ -75,15 +74,56 @@ class InitFragment : Fragment() {
         }
     }
 
+    private fun updateWeatherIcon(weatherDescription: String) {
+        Log.d("InitFragment", "Updating weather icon for: $weatherDescription")
+        val iconResource = when {
+            weatherDescription.contains("clear") || weatherDescription.contains("sun") -> {
+                Log.d("InitFragment", "Setting sunny icon")
+                com.saulhervas.weatherapp.R.drawable.sunny
+            }
+            weatherDescription.contains("cloud") -> {
+                Log.d("InitFragment", "Setting cloudy_sunny icon")
+                com.saulhervas.weatherapp.R.drawable.cloudy
+            }
+            weatherDescription.contains("rain") || weatherDescription.contains("drizzle") -> {
+                Log.d("InitFragment", "Setting rainy icon")
+                com.saulhervas.weatherapp.R.drawable.rainy
+            }
+            weatherDescription.contains("snow") || weatherDescription.contains("sleet") -> {
+                Log.d("InitFragment", "Setting snowy icon")
+                com.saulhervas.weatherapp.R.drawable.snowy
+            }
+            else -> {
+                Log.d("InitFragment", "Setting default cloudy_sunny icon")
+                com.saulhervas.weatherapp.R.drawable.cloudy_sunny
+            }
+        }
+        try {
+            requireActivity().runOnUiThread {
+                binding.ivIcon.setImageResource(iconResource)
+                Log.d("InitFragment", "Icon updated successfully")
+            }
+        } catch (e: Exception) {
+            Log.e("InitFragment", "Error setting icon: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.weatherData.collect { weather ->
                 weather?.let {
+                    Log.d("InitFragment", "Received weather data: $it")
                     binding.apply {
                         tvCity.text = it.cityName
                         tvTemperature.text = "${it.main.temp.toInt()}°C"
                         tvHumidity.text = "${it.main.humidity}%"
                         tvWind.text = "${it.wind.speed}m/s"
+                        
+                        // Actualizar el icono principal según el clima
+                        val weatherDescription = it.weather.firstOrNull()?.description?.lowercase() ?: ""
+                        Log.d("InitFragment", "Weather description: $weatherDescription")
+                        updateWeatherIcon(weatherDescription)
                     }
                 }
             }
@@ -154,7 +194,6 @@ class InitFragment : Fragment() {
         when {
             hasLocationPermission() -> getCurrentLocation()
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                // Mostrar diálogo explicando por qué necesitamos el permiso
                 viewModel.getWeatherAndForecastByCity("Madrid")
             }
             else -> {
