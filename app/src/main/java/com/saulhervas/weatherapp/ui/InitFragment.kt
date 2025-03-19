@@ -25,6 +25,8 @@ import com.saulhervas.weatherapp.model.HourlyForecast
 import com.saulhervas.weatherapp.model.ForecastResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class InitFragment : Fragment() {
@@ -146,8 +148,21 @@ class InitFragment : Fragment() {
                         return@collect
                     }
                     
-                    Log.d("InitFragment", "Processing ${forecastList.size} forecasts")
+                    // Actualizar el primer RecyclerView con los pronósticos por hora
+                    Log.d("InitFragment", "Processing ${forecastList.size} hourly forecasts")
                     forecastAdapter.updateForecasts(forecastList)
+                    
+                    // Agrupar los pronósticos por día para el segundo RecyclerView
+                    val dailyForecasts = forecastList.groupBy { hourlyForecast ->
+                        val date = Date(hourlyForecast.date * 1000)
+                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
+                    }.map { (_, forecasts) ->
+                        // Para cada día, tomar el pronóstico con la temperatura máxima
+                        forecasts.maxByOrNull { it.main.tempMax } ?: forecasts.first()
+                    }
+                    
+                    Log.d("InitFragment", "Processing ${dailyForecasts.size} daily forecasts")
+                    dailyForecastAdapter.updateForecasts(dailyForecasts)
                     
                     // Mostrar la probabilidad de lluvia del primer pronóstico
                     forecastList.firstOrNull()?.let { firstForecast ->
@@ -157,16 +172,6 @@ class InitFragment : Fragment() {
                 } catch (e: Exception) {
                     Log.e("InitFragment", "Error processing forecast data: ${e.message}")
                     e.printStackTrace()
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.dailyForecastData.collect { forecast ->
-                Log.d("InitFragment", "Received daily forecast: $forecast")
-                forecast?.let {
-                    Log.d("InitFragment", "Daily forecast list size: ${it.list.size}")
-                    dailyForecastAdapter.updateForecasts(it.list)
                 }
             }
         }
