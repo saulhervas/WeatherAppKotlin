@@ -52,12 +52,6 @@ class WeatherViewModel @Inject constructor(
                     _error.value = exception.message
                 }
 
-                // Get daily forecast
-                repository.getDailyForecastByCity(cityName).onSuccess { dailyForecast ->
-                    _dailyForecastData.value = dailyForecast
-                }.onFailure { exception ->
-                    _error.value = exception.message
-                }
             } catch (e: Exception) {
                 _error.value = e.message
             } finally {

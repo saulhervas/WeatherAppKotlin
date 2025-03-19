@@ -28,7 +28,7 @@
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/ivIcon"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
@@ -81,7 +81,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain_percentage"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/text_color"
                             android:textStyle="bold" />
 
                         <TextView
@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain"
                             android:textAlignment="center"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/text_color" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -112,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain_percentage"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/text_color"
                             android:textStyle="bold" />
 
                         <TextView
@@ -121,7 +121,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_wind"
                             android:textAlignment="center"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/text_color" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -143,7 +143,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_rain_percentage"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/text_color"
                             android:textStyle="bold" />
 
                         <TextView
@@ -152,7 +152,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_field_hint_humidity"
                             android:textAlignment="center"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/text_color" />
 
                     </LinearLayout>
 

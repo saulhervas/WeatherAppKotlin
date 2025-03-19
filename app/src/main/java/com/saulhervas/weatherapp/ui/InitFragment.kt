@@ -25,6 +25,8 @@ import com.saulhervas.weatherapp.model.HourlyForecast
 import com.saulhervas.weatherapp.model.ForecastResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class InitFragment : Fragment() {
@@ -41,7 +43,6 @@ class InitFragment : Fragment() {
         if (isGranted) {
             getCurrentLocation()
         } else {
-            // Si no hay permisos, usar una ciudad por defecto
             viewModel.getWeatherAndForecastByCity("Madrid")
         }
     }
@@ -75,15 +76,56 @@ class InitFragment : Fragment() {
         }
     }
 
+    private fun updateWeatherIcon(weatherDescription: String) {
+        Log.d("InitFragment", "Updating weather icon for: $weatherDescription")
+        val iconResource = when {
+            weatherDescription.contains("clear") || weatherDescription.contains("sun") -> {
+                Log.d("InitFragment", "Setting sunny icon")
+                com.saulhervas.weatherapp.R.drawable.sunny
+            }
+            weatherDescription.contains("cloud") -> {
+                Log.d("InitFragment", "Setting cloudy_sunny icon")
+                com.saulhervas.weatherapp.R.drawable.cloudy
+            }
+            weatherDescription.contains("rain") || weatherDescription.contains("drizzle") -> {
+                Log.d("InitFragment", "Setting rainy icon")
+                com.saulhervas.weatherapp.R.drawable.rainy
+            }
+            weatherDescription.contains("snow") || weatherDescription.contains("sleet") -> {
+                Log.d("InitFragment", "Setting snowy icon")
+                com.saulhervas.weatherapp.R.drawable.snowy
+            }
+            else -> {
+                Log.d("InitFragment", "Setting default cloudy_sunny icon")
+                com.saulhervas.weatherapp.R.drawable.cloudy_sunny
+            }
+        }
+        try {
+            requireActivity().runOnUiThread {
+                binding.ivIcon.setImageResource(iconResource)
+                Log.d("InitFragment", "Icon updated successfully")
+            }
+        } catch (e: Exception) {
+            Log.e("InitFragment", "Error setting icon: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.weatherData.collect { weather ->
                 weather?.let {
+                    Log.d("InitFragment", "Received weather data: $it")
                     binding.apply {
                         tvCity.text = it.cityName
                         tvTemperature.text = "${it.main.temp.toInt()}°C"
                         tvHumidity.text = "${it.main.humidity}%"
                         tvWind.text = "${it.wind.speed}m/s"
+                        
+                        // Actualizar el icono principal según el clima
+                        val weatherDescription = it.weather.firstOrNull()?.description?.lowercase() ?: ""
+                        Log.d("InitFragment", "Weather description: $weatherDescription")
+                        updateWeatherIcon(weatherDescription)
                     }
                 }
             }
@@ -106,8 +148,21 @@ class InitFragment : Fragment() {
                         return@collect
                     }
                     
-                    Log.d("InitFragment", "Processing ${forecastList.size} forecasts")
+                    // Actualizar el primer RecyclerView con los pronósticos por hora
+                    Log.d("InitFragment", "Processing ${forecastList.size} hourly forecasts")
                     forecastAdapter.updateForecasts(forecastList)
+                    
+                    // Agrupar los pronósticos por día para el segundo RecyclerView
+                    val dailyForecasts = forecastList.groupBy { hourlyForecast ->
+                        val date = Date(hourlyForecast.date * 1000)
+                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
+                    }.map { (_, forecasts) ->
+                        // Para cada día, tomar el pronóstico con la temperatura máxima
+                        forecasts.maxByOrNull { it.main.tempMax } ?: forecasts.first()
+                    }
+                    
+                    Log.d("InitFragment", "Processing ${dailyForecasts.size} daily forecasts")
+                    dailyForecastAdapter.updateForecasts(dailyForecasts)
                     
                     // Mostrar la probabilidad de lluvia del primer pronóstico
                     forecastList.firstOrNull()?.let { firstForecast ->
@@ -117,16 +172,6 @@ class InitFragment : Fragment() {
                 } catch (e: Exception) {
                     Log.e("InitFragment", "Error processing forecast data: ${e.message}")
                     e.printStackTrace()
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.dailyForecastData.collect { forecast ->
-                Log.d("InitFragment", "Received daily forecast: $forecast")
-                forecast?.let {
-                    Log.d("InitFragment", "Daily forecast list size: ${it.list.size}")
-                    dailyForecastAdapter.updateForecasts(it.list)
                 }
             }
         }
@@ -154,7 +199,6 @@ class InitFragment : Fragment() {
         when {
             hasLocationPermission() -> getCurrentLocation()
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                // Mostrar diálogo explicando por qué necesitamos el permiso
                 viewModel.getWeatherAndForecastByCity("Madrid")
             }
             else -> {

@@ -1,5 +1,6 @@
 package com.saulhervas.weatherapp.domain.repository
 
+
 import com.saulhervas.weatherapp.domain.api.WeatherApi
 import com.saulhervas.weatherapp.model.DailyForecastResponse
 import com.saulhervas.weatherapp.model.ForecastResponse

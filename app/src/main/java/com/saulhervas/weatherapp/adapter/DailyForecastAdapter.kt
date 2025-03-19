@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.saulhervas.weatherapp.databinding.ItemDailyForecastBinding
-import com.saulhervas.weatherapp.model.DailyForecast
+import com.saulhervas.weatherapp.model.HourlyForecast
 
 class DailyForecastAdapter : RecyclerView.Adapter<DailyForecastViewHolder>() {
 
-    private var forecasts: List<DailyForecast> = emptyList()
+    private var forecasts: List<HourlyForecast> = emptyList()
 
-    fun updateForecasts(newForecasts: List<DailyForecast>) {
+    fun updateForecasts(newForecasts: List<HourlyForecast>) {
         forecasts = newForecasts
         notifyDataSetChanged()
     }
