@@ -70,20 +70,6 @@ class WeatherRepository @Inject constructor(
         }
     }
 
-    suspend fun getDailyForecastByCity(cityName: String): Result<DailyForecastResponse> {
-        return try {
-            val response = weatherApi.getDailyForecastByCity(cityName)
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    Result.success(it)
-                } ?: Result.failure(Exception("Response body is null"))
-            } else {
-                Result.failure(Exception("Error: ${response.message()}"))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
 
     suspend fun getDailyForecastByLocation(lat: Double, lon: Double): Result<DailyForecastResponse> {
         return try {

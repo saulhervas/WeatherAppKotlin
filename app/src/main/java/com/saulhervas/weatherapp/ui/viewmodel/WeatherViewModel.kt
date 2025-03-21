@@ -38,14 +38,12 @@ class WeatherViewModel @Inject constructor(
             _error.value = null
 
             try {
-                // Get current weather
                 repository.getWeatherByCity(cityName).onSuccess { weather ->
                     _weatherData.value = weather
                 }.onFailure { exception ->
                     _error.value = exception.message
                 }
 
-                // Get hourly forecast
                 repository.getForecastByCity(cityName).onSuccess { forecast ->
                     _forecastData.value = forecast
                 }.onFailure { exception ->
@@ -66,21 +64,18 @@ class WeatherViewModel @Inject constructor(
             _error.value = null
 
             try {
-                // Get current weather
                 repository.getWeatherByLocation(lat, lon).onSuccess { weather ->
                     _weatherData.value = weather
                 }.onFailure { exception ->
                     _error.value = exception.message
                 }
 
-                // Get hourly forecast
                 repository.getForecastByLocation(lat, lon).onSuccess { forecast ->
                     _forecastData.value = forecast
                 }.onFailure { exception ->
                     _error.value = exception.message
                 }
 
-                // Get daily forecast
                 repository.getDailyForecastByLocation(lat, lon).onSuccess { dailyForecast ->
                     _dailyForecastData.value = dailyForecast
                 }.onFailure { exception ->
