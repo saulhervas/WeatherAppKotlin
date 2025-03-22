@@ -83,7 +83,7 @@ class InitFragment : Fragment() {
                 Log.d("InitFragment", "Setting sunny icon")
                 com.saulhervas.weatherapp.R.drawable.sunny
             }
-            weatherDescription.contains("cloud") -> {
+            weatherDescription.contains("cloud") || weatherDescription.contains("mist") -> {
                 Log.d("InitFragment", "Setting cloudy_sunny icon")
                 com.saulhervas.weatherapp.R.drawable.cloudy
             }

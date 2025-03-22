@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.saulhervas.weatherapp.databinding.ItemForecastBinding
 import com.saulhervas.weatherapp.model.HourlyForecast
 
-class ForecastAdapter : RecyclerView.Adapter<WeatherViewHolder>() {
+class ForecastAdapter(private val maxItems: Int = 24) : RecyclerView.Adapter<WeatherViewHolder>() {
 
     private var forecasts: List<HourlyForecast> = emptyList()
 
     fun updateForecasts(newForecasts: List<HourlyForecast>) {
         println("Updating forecasts with ${newForecasts.size} items")
-        forecasts = newForecasts
+        forecasts = newForecasts.take(maxItems)
         notifyDataSetChanged()
     }
 
