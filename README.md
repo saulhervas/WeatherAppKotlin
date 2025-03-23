@@ -8,7 +8,6 @@ Esta app muestra el clima actual y el pronóstico para cualquier ciudad. Usa la 
 
 ## Características
 
-*   Busca ciudades.
 *   Muestra el clima actual (temperatura, descripción, etc.).
 *   Muestra el pronóstico para los próximos días.
 
